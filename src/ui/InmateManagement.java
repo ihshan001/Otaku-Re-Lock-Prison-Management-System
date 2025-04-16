@@ -1,7 +1,11 @@
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightContrastIJTheme;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
@@ -182,6 +186,7 @@ public class InmateManagement extends JFrame {
 
        // Set Font and Color
         Font font = new Font("Source Sans 3 SemiBold", Font.BOLD, 14);
+      
         
 
         panelInput.setFont(font);
@@ -196,6 +201,7 @@ public class InmateManagement extends JFrame {
         
         // Set Font and Color
         Font font2 = new Font("Source Sans 3 SemiBold", Font.BOLD, 12);
+       
         
 
          txtCode.setFont(font2);
@@ -215,6 +221,7 @@ public class InmateManagement extends JFrame {
         comboStatus.setFont(font2);
         birthDateChooser.setFont(font2);
         timeServedChooser.setFont(font2);
+        
         timeEndChooser.setFont(font2);
         checkVisitorPrivilege.setFont(font2);
 
@@ -608,7 +615,7 @@ public class InmateManagement extends JFrame {
     }
 
     public static void main(String[] args) {
-        FlatAtomOneDarkContrastIJTheme.setup();
+        FlatAtomOneLightContrastIJTheme.setup();
         
         SwingUtilities.invokeLater(() -> new InmateManagement().setVisible(true));
     }

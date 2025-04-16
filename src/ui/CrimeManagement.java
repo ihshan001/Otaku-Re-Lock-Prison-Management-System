@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.sql.*;
 
 public class CrimeManagement extends JFrame {
+
     private JTable crimeTable;
     private JTextField txtCrimeName;
     private JComboBox<String> comboStatus;
@@ -22,6 +23,7 @@ public class CrimeManagement extends JFrame {
         Color panelColor = new Color(45, 45, 45);
         Color textColor = Color.WHITE;
         Color btnColor = new Color(70, 130, 180);
+        Color hoverColor = new Color(90, 150, 200);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(bgColor);
@@ -33,11 +35,33 @@ public class CrimeManagement extends JFrame {
 
         JLabel lblCrimeName = new JLabel("Crime Name:");
         lblCrimeName.setForeground(textColor);
-        txtCrimeName = new JTextField(20);
+        txtCrimeName = new JTextField(20) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (getText().isEmpty()) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setColor(Color.LIGHT_GRAY);
+                    g2d.setFont(new Font("Arial", Font.BOLD, 14));
+                    g2d.drawString("Enter Crime Name", 5, 20);
+                }
+            }
+        };
 
         JLabel lblStatus = new JLabel("Status:");
         lblStatus.setForeground(textColor);
-        comboStatus = new JComboBox<>(new String[]{"active", "inactive"}); // Matching ENUM values
+        comboStatus = new JComboBox<>(new String[]{"active", "inactive"}) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (getSelectedItem() == null) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setColor(Color.LIGHT_GRAY);
+                    g2d.setFont(new Font("Arial", Font.BOLD, 14));
+                    g2d.drawString("Select Status", 5, 20);
+                }
+            }
+        };
 
         inputPanel.add(lblCrimeName);
         inputPanel.add(txtCrimeName);
@@ -63,9 +87,9 @@ public class CrimeManagement extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(bgColor);
 
-        btnAddCrime = createStyledButton("Add Crime", btnColor);
-        btnEditCrime = createStyledButton("Edit Crime", btnColor);
-        btnDeleteCrime = createStyledButton("Delete Crime", new Color(178, 34, 34));
+        btnAddCrime = createStyledButton("Add Crime", btnColor, hoverColor);
+        btnEditCrime = createStyledButton("Edit Crime", btnColor, hoverColor);
+        btnDeleteCrime = createStyledButton("Delete Crime", new Color(178, 34, 34), new Color(208, 54, 54));
 
         buttonPanel.add(btnAddCrime);
         buttonPanel.add(btnEditCrime);
@@ -88,14 +112,43 @@ public class CrimeManagement extends JFrame {
         });
 
         loadCrimes();
+
+        // Animation
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (txtCrimeName.getText().isEmpty()) {
+                    txtCrimeName.setBackground(panelColor);
+                } else {
+                    txtCrimeName.setBackground(Color.WHITE);
+                }
+                if (comboStatus.getSelectedItem() == null) {
+                    comboStatus.setBackground(panelColor);
+                } else {
+                    comboStatus.setBackground(Color.WHITE);
+                }
+            }
+        });
+        timer.start();
     }
 
-    private JButton createStyledButton(String text, Color color) {
+    private JButton createStyledButton(String text, Color color, Color hoverColor) {
         JButton button = new JButton(text);
         button.setBackground(color);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(hoverColor);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(color);
+            }
+        });
         return button;
     }
 
